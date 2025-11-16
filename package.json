@@ -1,0 +1,17 @@
+{
+  "name": "demoqa-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:playwright": "npx playwright install",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ci": "npx playwright test --reporter=list"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.3.0"
+  }
+}
