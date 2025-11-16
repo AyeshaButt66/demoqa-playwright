@@ -1,30 +1,45 @@
 name: CI Tests
 
+# Trigger workflow on push or pull request to master
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
-  tests:
+  playwright-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      # Step 2: Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - run: npm ci
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npx playwright install --with-deps
+      # Step 4: Install Playwright browsers
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
-      - run: npm run test:ci
+      # Step 5: Run Playwright tests
+      - name: Run tests
+        env:
+          CI: true
+        run: npm run test:ci
 
-      - uses: actions/upload-artifact@v4
+      # Step 6: Upload HTML report as artifact
+      - name: Upload Playwright report
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report
